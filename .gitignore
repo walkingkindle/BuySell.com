@@ -1,0 +1,18 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/BuySell.com/CopilotIndices/17.13.441.19478
+/.vs/BuySell.com/FileContentIndex
+/.vs/BuySellDotCom/CopilotIndices/17.13.441.19478
+*.vsidx
+/.vs/BuySell.com/v17
+/BuySellDotCom.Application/obj
+/BuySellDotCom.Core/obj/Debug/net9.0
+/BuySellDotCom.Core/obj/Release/net9.0
+/BuySellDotCom.Core/obj/BuySellDotCom.Core.csproj.nuget.dgspec.json
+/BuySellDotCom.Core/obj/BuySellDotCom.Core.csproj.nuget.g.props
+/BuySellDotCom.Core/obj/BuySellDotCom.Core.csproj.nuget.g.targets
+/BuySellDotCom.Core/obj/project.assets.json
+/BuySellDotCom.Core/obj/project.nuget.cache
+/.vs
