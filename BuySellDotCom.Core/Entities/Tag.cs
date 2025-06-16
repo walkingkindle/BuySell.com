@@ -11,7 +11,6 @@ namespace BuySellDotCom.Core.Entities
             Value = value;
 
         }
-
         public int ListingId { get; set; }
 
         public string Value { get; set; }

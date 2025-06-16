@@ -1,11 +1,10 @@
 ﻿using CSharpFunctionalExtensions;
 
-namespace BuySellDotCom.Core.Entities
+namespace BuySellDotCom.Core.BaseTypes
 {
     public class Address
     { 
         public Address(string city, string addressValue, int buildingNumber)
-
         {
             City = city;
 

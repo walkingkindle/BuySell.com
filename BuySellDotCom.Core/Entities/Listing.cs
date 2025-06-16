@@ -1,16 +1,19 @@
-﻿namespace BuySellDotCom.Core.Entities
+﻿using BuySellDotCom.Core.BaseTypes;
+using BuySellDotCom.Core.Enums;
+
+namespace BuySellDotCom.Core.Entities
 {
     public class Listing
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public decimal Price { get; set; }
 
-        public string Condition { get; set; }
+        public Currency Currency { get; set; }
 
-        public string Address { get; set; }
+        public Condition Condition { get; set; }
+
+        public Address Address { get; set; }
 
         public int UserId { get; set; }
 

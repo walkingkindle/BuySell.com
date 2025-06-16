@@ -16,3 +16,9 @@
 /BuySellDotCom.Core/obj/project.assets.json
 /BuySellDotCom.Core/obj/project.nuget.cache
 /.vs
+/BuySell.API/obj
+/BuySell.API/appsettings.json
+/BuySellDotCom.Application/bin/Debug
+/BuySellDotCom.Core/bin/Debug
+/BuySellDotCom.Core/obj/Debug/net8.0
+/Infrastructure/obj

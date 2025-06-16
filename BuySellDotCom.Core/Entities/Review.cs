@@ -2,7 +2,7 @@
 
 namespace BuySellDotCom.Core.Entities
 {
-    public class Review
+    public partial class Review
     {
         public ReviewValue Value { get; set; }
         public int ListingId { get; set; }
@@ -25,15 +25,6 @@ namespace BuySellDotCom.Core.Entities
                 .Ensure(review => ListingId.Value > 0 && userId.Value > 0, "Listing and userIds must be valid")
                 .Map(review => new Review(reviewValue.Value, ListingId.Value, userId.Value));
         }
-
-    public enum ReviewValue
-    {
-        Great = 5,
-        Good = 4,
-        Fair = 3,
-        Average = 2,
-        BelowAverage = 1
-    }
 
 
     public static explicit operator Review((int reviewValue, int listingId, int userId) input)

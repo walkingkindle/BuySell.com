@@ -1,4 +1,4 @@
-﻿namespace BuySellDotCom.Core.Entities
+﻿namespace BuySellDotCom.Core.Enums
 {
     public enum Gender
     {

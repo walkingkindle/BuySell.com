@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using BuySellDotCom.Core.BaseTypes;
+using BuySellDotCom.Core.Enums;
 
 namespace BuySellDotCom.Core.Entities
 {

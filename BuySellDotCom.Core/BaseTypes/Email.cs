@@ -1,7 +1,7 @@
 ﻿using CSharpFunctionalExtensions;
 using System.Text.RegularExpressions;
 
-namespace BuySellDotCom.Core.Entities
+namespace BuySellDotCom.Core.BaseTypes
 {
     public class Email
     {
