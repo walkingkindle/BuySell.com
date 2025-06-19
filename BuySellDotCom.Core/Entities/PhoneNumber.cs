@@ -18,7 +18,7 @@ namespace BuySellDotCom.Core.Entities
         {
             return phone.ToResult("Value must not be null")
                 .Ensure(phoneNumber => countryCode.HasValue && AllowedCountryCodes.Contains(countryCode.Value), "Country code has no value or invalid")
-                .Ensure(phoneNumber => phoneNumber.Length >= 6 && phoneNumber.Length <= 8, "Invalid phone number supplied")
+                .Ensure(phoneNumber => phoneNumber.Length is >= 6 and <= 8, "Invalid phone number supplied")
                 .Ensure(phoneNumber => phoneNumber.All(char.IsDigit),"All characters in string must be digits")
                 .Map(phoneNumber => phoneNumber.Trim())
                 .Map(phoneNumber => new PhoneNumber(countryCode.Value, phone.Value));

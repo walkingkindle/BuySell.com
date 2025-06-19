@@ -22,6 +22,7 @@ namespace BuySellDotCom.Core.Entities
             Email email, Address address, int age)
         {
             return name.ToResult("Name must not be null")
+                .Ensure(result => name.HasValue && name.Value.Length < 150, "Invalid name value")
                 .Ensure(result => Enum.IsDefined(typeof(Gender), gender), "Gender value must be valid")
                 .Map(result => new User(name.Value, phoneNumber, email, address, age, gender.Value));
         }

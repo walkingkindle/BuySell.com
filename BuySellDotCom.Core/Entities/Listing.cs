@@ -19,7 +19,7 @@ namespace BuySellDotCom.Core.Entities
             Maybe<Condition> condition, Maybe<int> userId, Maybe<string> imageUrl, Maybe<Category> category, Address address)
         {
             return name.ToResult("Name must not be null")
-                .Ensure(result => price.HasValue && price.Value > 0, "Price value must be valid")
+                .Ensure(result => price is { HasValue: true, Value: > 0 }, "Price value must be valid")
                 .Ensure(result => Enum.IsDefined(typeof(Currency), currency.Value), "Currency value must be valid")
                 .Ensure(result => Enum.IsDefined(typeof(Condition), condition.Value), "Condition value must be valid")
                 .Ensure(result => userId.Value > 0, "User Id value must be higher than 0")
