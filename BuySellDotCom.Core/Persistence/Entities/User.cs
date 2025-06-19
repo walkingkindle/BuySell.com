@@ -12,8 +12,7 @@ namespace BuySellDotCom.Core.Persistence.Entities
         public bool IsActivated { get; set; }
         public int? Age { get; set; }
         public Gender? Gender { get; set; }
-        public List<Address> Addresses { get; set; }
-        public List<Listing> Listings { get; set; }
-
+        public ICollection<Address> Addresses { get; set; } = new List<Address>();
+        public ICollection<Listing> Listings { get; set; } = new List<Listing>();
     }
 }

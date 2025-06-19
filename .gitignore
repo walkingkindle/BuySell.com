@@ -22,3 +22,5 @@
 /BuySellDotCom.Core/bin/Debug
 /BuySellDotCom.Core/obj/Debug/net8.0
 /Infrastructure/obj
+/BuySell.API/bin/Debug/net8.0
+/Infrastructure/bin/Debug/net8.0

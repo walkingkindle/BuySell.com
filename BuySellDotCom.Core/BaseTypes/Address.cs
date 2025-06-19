@@ -4,7 +4,7 @@ namespace BuySellDotCom.Core.BaseTypes
 {
     public class Address
     { 
-        public Address(string city, string addressValue, int buildingNumber)
+        private Address(string city, string addressValue, int buildingNumber)
         {
             City = city;
 

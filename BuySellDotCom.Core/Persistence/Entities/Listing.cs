@@ -11,8 +11,8 @@ namespace BuySellDotCom.Core.Persistence.Entities
         public required Address ShippingAddress { get; set; }
         public string? ImageUrl { get; set; }
         public Category Category { get; set; }
-        public List<Review> Reviews { get; set; }
-        public List<Tag> Tags { get; set; }
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
         public required User User { get; set; }
         public required int UserId { get; set; }
     }
