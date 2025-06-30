@@ -1,4 +1,10 @@
-﻿using Infrastructure.Context;
+﻿using BuySellDotCom.Application.Interfaces.Repositories;
+using BuySellDotCom.Application.Interfaces.Services;
+using BuySellDotCom.Application.Services;
+using Infrastructure;
+using Infrastructure.Context;
+using Infrastructure.Middleware;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace BuySell.API;
@@ -17,6 +23,20 @@ public class Startup
         services.AddDbContext<BuySellDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("ConnectionStrings:Database")));
 
+        services.AddTransient<IListingService, ListingService>();
+
+        services.AddTransient<IUserRepository, UserRepository>();
+
+        services.AddTransient<IListingRepository, ListingRepository>();
+
+        services.AddControllers(); 
+
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+
+        services.AddAutoMapper(typeof(MappingProfile));
+
+
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -27,9 +47,9 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.UseCors("AllowSpecificOrigin");
         app.UseHttpsRedirection();
         app.UseRouting();
+        app.UseMiddleware<ResultHandlingMiddleware>();
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>

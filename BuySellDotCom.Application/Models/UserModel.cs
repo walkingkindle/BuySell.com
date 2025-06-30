@@ -2,13 +2,13 @@
 using BuySellDotCom.Core.Enums;
 using CSharpFunctionalExtensions;
 
-namespace BuySellDotCom.Core.Entities
+namespace BuySellDotCom.Application.Models
 {
-    public class User
+    public class UserModel
     {
         public string Name { get; set; }
 
-        public PhoneNumber PhoneNumber { get; set; }
+        public PhoneNumberModel PhoneNumber { get; set; }
 
         public Email EmailAddress { get; set; }
 
@@ -18,17 +18,17 @@ namespace BuySellDotCom.Core.Entities
 
         public Gender Gender { get; set; }
 
-        public static Result<User> Create(Maybe<string> name, Maybe<Gender> gender, PhoneNumber phoneNumber,
+        public static Result<UserModel> Create(Maybe<string> name, Maybe<Gender> gender, PhoneNumberModel phoneNumber,
             Email email, Address address, int age)
         {
             return name.ToResult("Name must not be null")
                 .Ensure(result => name.HasValue && name.Value.Length < 150, "Invalid name value")
                 .Ensure(result => Enum.IsDefined(typeof(Gender), gender), "Gender value must be valid")
-                .Map(result => new User(name.Value, phoneNumber, email, address, age, gender.Value));
+                .Map(result => new UserModel(name.Value, phoneNumber, email, address, age, gender.Value));
         }
 
 
-        private User(string name, PhoneNumber phoneNumber, Email email, Address address, int age, Gender gender)
+        private UserModel(string name, PhoneNumberModel phoneNumber, Email email, Address address, int age, Gender gender)
         {
             Name = name;
             PhoneNumber = phoneNumber;
