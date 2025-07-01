@@ -2,6 +2,7 @@
 using BuySellDotCom.Application.Interfaces.Repositories;
 using BuySellDotCom.Application.Interfaces.Services;
 using BuySellDotCom.Application.Models;
+using BuySellDotCom.Application.Models.DTO;
 using BuySellDotCom.Core.Persistence.Entities;
 using CSharpFunctionalExtensions;
 using Address = BuySellDotCom.Core.BaseTypes.Address;
@@ -17,18 +18,17 @@ namespace BuySellDotCom.Application.Services
         {
             _mapper = mapper;
             _listingRepository = listingRepository;
-
         }
-        public async Task<Result> CreateListing(Maybe<ListingModel> listing)
+        public async Task<Result> CreateListing(Maybe<ListingDto> listing)
         {
-            Result<Address> addressResult = Address.Create(listing.Value.Address);
+            Result<Address> addressResult = Address.Create(new AddressDto(listing.Value.City, listing.Value.Address, listing.Value.BuildingNumber));
 
             if (addressResult.IsFailure)
             {
                 return Result.Failure<ListingModel>(addressResult.Error);
             }
 
-            Result<ListingModel> listingResult = ListingModel.Create(listing);
+            Result<ListingModel> listingResult = ListingModel.Create(listing, addressResult.Value);
 
             if (listingResult.IsFailure)
             {
@@ -40,9 +40,6 @@ namespace BuySellDotCom.Application.Services
             await _listingRepository.AddAsync(listingDb);
 
             return Result.Success();
-
-
-
         }
     }
 }

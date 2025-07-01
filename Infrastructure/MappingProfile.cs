@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BuySellDotCom.Application.Models;
+using BuySellDotCom.Application.Models.DTO;
 using BuySellDotCom.Core.Persistence.Entities;
 
 namespace Infrastructure
@@ -14,7 +15,9 @@ namespace Infrastructure
             .ForMember(dest => dest.Reviews, opt => opt.Ignore())
             .ForMember(dest => dest.User, opt => opt.Ignore()) // since you're setting UserId
             .ForMember(dest => dest.Id, opt => opt.Ignore());
-    
+
+            CreateMap<ListingDto, ListingModel>();
+
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using BuySellDotCom.Application.Models.DTO;
+using CSharpFunctionalExtensions;
 
 namespace BuySellDotCom.Core.BaseTypes
 {
@@ -20,11 +21,9 @@ namespace BuySellDotCom.Core.BaseTypes
         public int BuildingNumber { get; set; }
 
 
-        //public static Result<Address> Create(Maybe<string> city, Maybe<string> addressValue, Maybe<int> buildingNumber)
-        //{
-        public static Result<Address> Create(Maybe<Address> addressOrNothing){
+        public static Result<Address> Create(Maybe<AddressDto> addressOrNothing){
             return addressOrNothing.ToResult("address cannot be null")
-                .Ensure(address => string.IsNullOrEmpty(addressOrNothing.Value.City) || addressOrNothing.Value.BuildingNumber <= 0, "Invalid address information")
+                .Ensure(address => !string.IsNullOrEmpty(addressOrNothing.Value.City) || addressOrNothing.Value.BuildingNumber <= 0, "Invalid address information")
                 .Map(address => new Address(addressOrNothing.Value.City, addressOrNothing.Value.AddressValue, addressOrNothing.Value.BuildingNumber));
 
         }
