@@ -205,7 +205,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("BuySellDotCom.Core.Persistence.Entities.User", "User")
                         .WithMany("Listings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ShippingAddress");

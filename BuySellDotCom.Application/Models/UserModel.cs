@@ -1,5 +1,7 @@
-﻿using BuySellDotCom.Core.BaseTypes;
+﻿using BuySellDotCom.Application.Models.DTO;
+using BuySellDotCom.Core.BaseTypes;
 using BuySellDotCom.Core.Enums;
+using BuySellDotCom.Core.Persistence.Entities;
 using CSharpFunctionalExtensions;
 
 namespace BuySellDotCom.Application.Models
@@ -8,32 +10,24 @@ namespace BuySellDotCom.Application.Models
     {
         public string Name { get; set; }
 
-        public PhoneNumberModel PhoneNumber { get; set; }
-
-        public Email EmailAddress { get; set; }
-
-        public Address Address { get; set; }
+        public int AddressId  { get; set; }
 
         public int? Age { get; set; }
 
         public Gender Gender { get; set; }
 
-        public static Result<UserModel> Create(Maybe<string> name, Maybe<Gender> gender, PhoneNumberModel phoneNumber,
-            Email email, Address address, int age)
+        public static Result<UserModel> Create(Maybe<UserDto> userOrNothing)
         {
-            return name.ToResult("Name must not be null")
-                .Ensure(result => name.HasValue && name.Value.Length < 150, "Invalid name value")
-                .Ensure(result => Enum.IsDefined(typeof(Gender), gender), "Gender value must be valid")
-                .Map(result => new UserModel(name.Value, phoneNumber, email, address, age, gender.Value));
+            return userOrNothing.ToResult("Name must not be null")
+                .Ensure(result => result.Name.Length < 150, "Invalid name value")
+                .Ensure(result => Enum.IsDefined(typeof(Gender), result.Gender), "Gender value must be valid")
+                .Ensure(result => result.AddressId > 0, "Invalid address Id")
+                .Map(result => new UserModel(result.Name,result.Age ?? 0, result.Gender));
         }
 
-
-        private UserModel(string name, PhoneNumberModel phoneNumber, Email email, Address address, int age, Gender gender)
+        private UserModel(string name, int age, Gender gender)
         {
             Name = name;
-            PhoneNumber = phoneNumber;
-            EmailAddress = email;
-            Address = address;
             Age = age;
             Gender = gender;
 

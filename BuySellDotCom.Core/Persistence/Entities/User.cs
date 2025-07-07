@@ -31,5 +31,7 @@ namespace BuySellDotCom.Core.Persistence.Entities
         public Gender? Gender { get; set; }
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
         public ICollection<Listing> Listings { get; set; } = new List<Listing>();
+
     }
+
 }

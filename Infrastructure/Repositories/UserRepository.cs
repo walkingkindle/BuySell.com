@@ -1,9 +1,10 @@
 ﻿using BuySellDotCom.Application.Interfaces.Repositories;
 using BuySellDotCom.Core.Persistence.Entities;
+using Infrastructure.Context;
 
 namespace Infrastructure.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(BuySellDbContext context) : IUserRepository
     {
         public Task<User?> GetByIdAsync(int id)
         {
@@ -15,9 +16,11 @@ namespace Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task AddAsync(User user)
+        public async Task AddAsync(User user)
         {
-            throw new NotImplementedException();
+            context.Users.Add(user);
+
+            await context.SaveChangesAsync();
         }
 
         public Task DeleteAsync(User user)

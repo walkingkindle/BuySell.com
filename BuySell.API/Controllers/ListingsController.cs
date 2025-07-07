@@ -1,5 +1,4 @@
 ﻿using BuySellDotCom.Application.Interfaces.Services;
-using BuySellDotCom.Application.Models;
 using BuySellDotCom.Application.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 

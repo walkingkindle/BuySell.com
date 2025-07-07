@@ -21,7 +21,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<BuySellDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("ConnectionStrings:Database")));
+            options.UseSqlServer(configuration.GetConnectionString("Database")));
 
         services.AddTransient<IListingService, ListingService>();
 

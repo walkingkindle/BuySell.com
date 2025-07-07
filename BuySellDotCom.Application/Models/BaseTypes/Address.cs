@@ -3,9 +3,9 @@ using CSharpFunctionalExtensions;
 
 namespace BuySellDotCom.Core.BaseTypes
 {
-    public class Address
+    public class AddressModel
     { 
-        private Address(string city, string addressValue, int buildingNumber)
+        private AddressModel(string city, string addressValue, int buildingNumber)
         {
             City = city;
 
@@ -21,10 +21,12 @@ namespace BuySellDotCom.Core.BaseTypes
         public int BuildingNumber { get; set; }
 
 
-        public static Result<Address> Create(Maybe<AddressDto> addressOrNothing){
+        public static Result<AddressModel> Create(Maybe<AddressDto> addressOrNothing)
+        {
             return addressOrNothing.ToResult("address cannot be null")
-                .Ensure(address => !string.IsNullOrEmpty(addressOrNothing.Value.City) || addressOrNothing.Value.BuildingNumber <= 0, "Invalid address information")
-                .Map(address => new Address(addressOrNothing.Value.City, addressOrNothing.Value.AddressValue, addressOrNothing.Value.BuildingNumber));
+            .Ensure(address => !string.IsNullOrEmpty(addressOrNothing.Value.AddressValue) || addressOrNothing.Value.BuildingNumber <= 0, "Invalid address information")
+            .Map(address => new AddressModel(addressOrNothing.Value.City, addressOrNothing.Value.AddressValue, addressOrNothing.Value.BuildingNumber));
+
 
         }
 

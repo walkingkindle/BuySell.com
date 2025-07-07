@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BuySellDbContext))]
-    [Migration("20250619113938_Init")]
+    [Migration("20250707130916_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -208,7 +208,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("BuySellDotCom.Core.Persistence.Entities.User", "User")
                         .WithMany("Listings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ShippingAddress");

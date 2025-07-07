@@ -22,6 +22,9 @@ public class Listing
     [Required]
     public required Address ShippingAddress { get; set; }
 
+    [Required]
+    public required int AddressId { get; set; }
+
     [Url]
     public string? ImageUrl { get; set; }
 
