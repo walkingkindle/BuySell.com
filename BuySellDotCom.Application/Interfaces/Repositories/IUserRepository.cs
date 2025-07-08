@@ -10,5 +10,7 @@ namespace BuySellDotCom.Application.Interfaces.Repositories
         Task DeleteAsync(User user);
         Task UpdateAsync(User user);
 
+        Task<User?> GetByEmailAsync(string email);
+
     }
 }

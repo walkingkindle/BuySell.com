@@ -23,9 +23,5 @@ namespace BuySellDotCom.Core.Persistence.Entities
         [MinLength(6)]
         [MaxLength(8)]
         public required int Number { get; set; }
-
-        [MinLength(5)]
-        [MaxLength(100)]
-        public string? State { get; set; }
     }
 }

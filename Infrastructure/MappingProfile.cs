@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BuySellDotCom.Application.Models;
+using BuySellDotCom.Application.Models.BaseTypes;
 using BuySellDotCom.Application.Models.DTO;
 using BuySellDotCom.Core.Persistence.Entities;
 
@@ -16,6 +17,8 @@ namespace Infrastructure
             .ForMember(dest => dest.Id, opt => opt.Ignore());
 
             CreateMap<ListingDto, ListingModel>();
+
+            CreateMap<AddressModel, Address>();
 
         }
 

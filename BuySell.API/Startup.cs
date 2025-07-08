@@ -23,11 +23,23 @@ public class Startup
         services.AddDbContext<BuySellDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("Database")));
 
-        services.AddTransient<IListingService, ListingService>();
-
+        //repos
         services.AddTransient<IUserRepository, UserRepository>();
 
         services.AddTransient<IListingRepository, ListingRepository>();
+
+        services.AddTransient<IAddressRepository, AddressRepository>();
+
+
+        //services
+
+        services.AddTransient<IAddressService, AddressService>();
+
+        services.AddTransient<IListingService, ListingService>();
+
+        services.AddTransient<IUserService, UserService>();
+
+        //miscellaneous
 
         services.AddControllers(); 
 
@@ -49,7 +61,7 @@ public class Startup
 
         app.UseHttpsRedirection();
         app.UseRouting();
-        app.UseMiddleware<ResultHandlingMiddleware>();
+        //app.UseMiddleware<ResultHandlingMiddleware>();
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>

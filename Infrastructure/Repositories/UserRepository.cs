@@ -1,14 +1,15 @@
 ﻿using BuySellDotCom.Application.Interfaces.Repositories;
 using BuySellDotCom.Core.Persistence.Entities;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
     public class UserRepository(BuySellDbContext context) : IUserRepository
     {
-        public Task<User?> GetByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public Task<List<User>> GetAllAsync()
@@ -31,6 +32,12 @@ namespace Infrastructure.Repositories
         public Task UpdateAsync(User user)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.EmailAddress == email);
+
         }
     }
 }

@@ -13,8 +13,6 @@ namespace BuySellDotCom.Application.Models
         public Condition Condition { get; set; } = new();
         public int UserId { get; set; }
         public string ImageUrl { get; set; }
-
-        public int AddressId { get; set; }
         public Category Category { get; set; }
 
         public static Result<ListingModel> Create(Maybe<ListingDto> listingOrNothing)
@@ -26,7 +24,6 @@ namespace BuySellDotCom.Application.Models
             .Ensure(result => listingOrNothing.Value.UserId > 0, "User Id value must be higher than 0")
             .Ensure(result => !string.IsNullOrEmpty(listingOrNothing.Value.ImageUrl), "Image url is required")
             .Ensure(result => Enum.IsDefined(typeof(Category), listingOrNothing.Value.Category), "Category value must be valid")
-            .Ensure(result => result.AddressId > 0, "Address id value must be valid")
             .Map(result => new ListingModel(listingOrNothing.Value.Name, listingOrNothing.Value.Price, listingOrNothing.Value.Currency, listingOrNothing.Value.Condition,
                 listingOrNothing.Value.UserId, listingOrNothing.Value.ImageUrl, listingOrNothing.Value.Category));
         }

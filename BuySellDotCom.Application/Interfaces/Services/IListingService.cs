@@ -6,6 +6,6 @@ namespace BuySellDotCom.Application.Interfaces.Services
 {
     public interface IListingService
     {
-        public Task<Result> CreateListing(Maybe<ListingDto> listing);
+        public Task<Result> CreateListing(ListingDto listing);
     }
 }

@@ -17,12 +17,19 @@ namespace BuySellDotCom.Application.Services
             var phoneNumberResult = PhoneNumberModel.Create(user.Value.CountryCode, user.Value.PhoneNumber);
 
             var userResult = UserModel.Create(user);
-  
+
             var combinedResult = Result.Combine(emailResult, userResult, phoneNumberResult);
 
             if (combinedResult.IsFailure)
             {
                 return Result.Failure(combinedResult.Error);
+            }
+
+            var userExists = await userRepository.GetByEmailAsync(emailResult.Value);
+
+            if (userExists != null)
+            {
+                return Result.Failure("User with this e-mail already exists");
             }
 
             var userDb = new User()
