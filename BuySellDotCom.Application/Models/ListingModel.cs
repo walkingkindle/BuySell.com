@@ -18,14 +18,14 @@ namespace BuySellDotCom.Application.Models
         public static Result<ListingModel> Create(Maybe<ListingDto> listingOrNothing)
         {
             return listingOrNothing.ToResult("Name must not be null")
-            .Ensure(result => listingOrNothing.Value.Price > 0, "Price value must be valid")
-            .Ensure(result => Enum.IsDefined(typeof(Currency), listingOrNothing.Value.Currency), "Currency value must be valid")
-            .Ensure(result => Enum.IsDefined(typeof(Condition), listingOrNothing.Value.Condition), "Condition value must be valid")
-            .Ensure(result => listingOrNothing.Value.UserId > 0, "User Id value must be higher than 0")
-            .Ensure(result => !string.IsNullOrEmpty(listingOrNothing.Value.ImageUrl), "Image url is required")
-            .Ensure(result => Enum.IsDefined(typeof(Category), listingOrNothing.Value.Category), "Category value must be valid")
-            .Map(result => new ListingModel(listingOrNothing.Value.Name, listingOrNothing.Value.Price, listingOrNothing.Value.Currency, listingOrNothing.Value.Condition,
-                listingOrNothing.Value.UserId, listingOrNothing.Value.ImageUrl, listingOrNothing.Value.Category));
+            .Ensure(result => result.Price > 0, "Price value must be valid")
+            .Ensure(result => Enum.IsDefined(typeof(Currency), result.Currency), "Currency value must be valid")
+            .Ensure(result => Enum.IsDefined(typeof(Condition), result.Condition), "Condition value must be valid")
+            .Ensure(result => result.UserId > 0, "User Id value must be higher than 0")
+            .Ensure(result => !string.IsNullOrEmpty(result.ImageUrl), "Image url is required")
+            .Ensure(result => Enum.IsDefined(typeof(Category), result.Category), "Category value must be valid")
+            .Map(result => new ListingModel(result.Name, result.Price, result.Currency, result.Condition,
+                result.UserId, result.ImageUrl, result.Category));
         }
 
 

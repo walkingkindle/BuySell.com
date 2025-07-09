@@ -24,14 +24,30 @@ namespace Infrastructure.Repositories
             await context.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(User user)
+        public async Task DeleteAsync(User user)
         {
-            throw new NotImplementedException();
+            user.IsDeleted = true;
+            user.IsActivated = false;
+            await context.SaveChangesAsync();
         }
 
-        public Task UpdateAsync(User user)
+        public async Task UpdateAsync(User user)
         {
-            throw new NotImplementedException();
+            var userToUpdate = await context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            userToUpdate!.Name = user.Name;
+
+            userToUpdate.Age = user.Age;
+
+            userToUpdate.CountryCode = user.CountryCode;
+
+            userToUpdate.EmailAddress = user.EmailAddress;
+
+            userToUpdate.Gender = user.Gender;
+
+            userToUpdate.PhoneNumber = userToUpdate.PhoneNumber;
+
+            await context.SaveChangesAsync();
         }
 
         public async Task<User?> GetByEmailAsync(string email)

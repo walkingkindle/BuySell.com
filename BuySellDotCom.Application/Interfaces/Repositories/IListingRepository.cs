@@ -8,4 +8,5 @@ namespace BuySellDotCom.Application.Interfaces.Repositories;
         Task AddAsync(Listing listing);
         Task DeleteAsync(Listing listing);
         Task UpdateAsync(Listing listing);
+        Task<List<Listing>> GetByUserId(int userId);
     }

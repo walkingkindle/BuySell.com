@@ -20,6 +20,8 @@ namespace Infrastructure
 
             CreateMap<AddressModel, Address>();
 
+            CreateMap<ReviewModel, Review>();
+
         }
 
     }

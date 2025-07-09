@@ -1,36 +1,29 @@
-﻿using BuySellDotCom.Core.Entities;
+﻿using BuySellDotCom.Application.Models.DTO;
+using BuySellDotCom.Core.Enums;
 using CSharpFunctionalExtensions;
 
 namespace BuySellDotCom.Application.Models
 {
     public partial class ReviewModel
     {
-        public Review.ReviewValue Value { get; set; }
+        public ReviewValue Value { get; set; }
         public int ListingId { get; set; }
         public int UserId { get; set; }
 
-        private ReviewModel(int value, int listingId, int userId)
+        private ReviewModel(ReviewValue value, int listingId, int userId)
         {
-            Value = (Review.ReviewValue)value;
+            Value = value;
 
             ListingId = listingId;
 
             UserId = userId;
         }
-
-
-        public static Result<ReviewModel> Create(Maybe<int> reviewValue, Maybe<int> ListingId, Maybe<int> userId)
+        public static Result<ReviewModel> Create(Maybe<ReviewDto> reviewOrNothing)
         {
-            return reviewValue.ToResult("Value must not be null")
-                .Ensure(review => Enum.IsDefined(typeof(Review.ReviewValue), reviewValue.Value), "Review value must be in a valid range")
-                .Ensure(review => ListingId.Value > 0 && userId.Value > 0, "Listing and userIds must be valid")
-                .Map(review => new ReviewModel(reviewValue.Value, ListingId.Value, userId.Value));
+            return reviewOrNothing.ToResult("Value must not be null")
+                .Ensure(review => Enum.IsDefined(typeof(ReviewValue), review.Value), "Review value must be in a valid range")
+                .Ensure(review => review.ListingId > 0 && review.UserId > 0, "Listing and userIds must be valid")
+                .Map(review => new ReviewModel(review.Value, review.ListingId, review.UserId));
         }
-
-
-        public static explicit operator ReviewModel((int reviewValue, int listingId, int userId) input)
-        {
-            return Create(input.reviewValue, input.listingId, input.userId).Value;
-        }
-}
+    }
 }

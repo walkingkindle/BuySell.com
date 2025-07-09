@@ -18,5 +18,23 @@ namespace BuySell.API.Controllers
             var userResult = await service.AddUser(user);
             return userResult.ToActionResult();
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(UserDto user, [FromRoute(Name = "id")] int userId)
+        {
+            var result = await service.UpdateUser(user, userId);
+
+            return result.ToActionResult();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser([FromRoute(Name = "id")] int userId)
+        {
+            //TO DO: AUTHORIZE THIS SO THAT ONLY THE USER HIMSELF CAN DELETE HIS ACCOUNT OR THE ADMIN
+            var result = await service.DeleteUser(userId);
+
+            return result.ToActionResult();
+        }
+
     }
 }

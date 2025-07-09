@@ -30,6 +30,8 @@ public class Startup
 
         services.AddTransient<IAddressRepository, AddressRepository>();
 
+        services.AddTransient<IReviewRepository, ReviewRepository>();
+
 
         //services
 
@@ -38,6 +40,8 @@ public class Startup
         services.AddTransient<IListingService, ListingService>();
 
         services.AddTransient<IUserService, UserService>();
+
+        services.AddTransient<IReviewService, ReviewService>();
 
         //miscellaneous
 

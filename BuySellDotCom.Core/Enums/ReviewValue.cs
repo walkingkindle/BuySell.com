@@ -1,14 +1,9 @@
-﻿namespace BuySellDotCom.Core.Entities
+﻿namespace BuySellDotCom.Core.Enums;
+public enum ReviewValue
 {
-    public partial class Review
-    {
-    public enum ReviewValue
-    {
-        Great,
-        Good,
-        Fair,
-        Average,
-        BelowAverage
-    }
-}
+    Great,
+    Good,
+    Fair,
+    Average,
+    BelowAverage
 }

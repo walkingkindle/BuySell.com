@@ -33,5 +33,7 @@ public class Listing
 
     [Required]
     public required int UserId { get; set; }
+
+    public bool IsDeleted { get; set; }
 }
 

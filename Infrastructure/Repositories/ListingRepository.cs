@@ -1,6 +1,7 @@
 ﻿using BuySellDotCom.Application.Interfaces.Repositories;
 using BuySellDotCom.Core.Persistence.Entities;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
@@ -28,9 +29,23 @@ namespace Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Listing listing)
+        public async Task UpdateAsync(Listing listing)
         {
-            throw new NotImplementedException();
+            var listingToUpdate = await context.Listings.FirstOrDefaultAsync(l => l.Id == listing.Id);
+
+            listingToUpdate!.Category = listing.Category;
+
+            listingToUpdate.Condition = listing.Condition;
+
+            listingToUpdate.ImageUrl = listing.ImageUrl;
+
+            listingToUpdate.Name = listing.Name;
+
+            listingToUpdate.Price = listing.Price;
+
+            await context.SaveChangesAsync();
         }
+
+        public async Task<List<Listing>> GetByUserId(int userId) => await context.Listings.Where(u => u.UserId == userId).ToListAsync();
     }
 }

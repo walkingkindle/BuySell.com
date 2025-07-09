@@ -24,6 +24,12 @@ namespace Infrastructure.Context
             .HasForeignKey(l => l.UserId)
             .OnDelete(DeleteBehavior.Restrict);
 
+             modelBuilder.Entity<Listing>().HasQueryFilter(l => !l.IsDeleted);
+
+             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted && u.IsActivated);
+
+
+
 
         }
 
