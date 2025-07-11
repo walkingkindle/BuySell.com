@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
 
         public async Task<Review?> GetReviewBy(int userId, int listingId)
         {
-            return await context.Reviews.AsNoTracking().FirstOrDefaultAsync(u => u.ListingId == listingId && u.UserId == userId);
+            return await context.Reviews.FirstOrDefaultAsync(u => u.ListingId == listingId && u.UserId == userId);
         }
     }
 }

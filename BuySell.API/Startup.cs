@@ -5,7 +5,9 @@ using Infrastructure;
 using Infrastructure.Context;
 using Infrastructure.Middleware;
 using Infrastructure.Repositories;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace BuySell.API;
 
@@ -23,14 +25,17 @@ public class Startup
         services.AddDbContext<BuySellDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("Database")));
 
+        Log.Logger = new LoggerConfiguration()
+        .CreateLogger();
+
         //repos
-        services.AddTransient<IUserRepository, UserRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
-        services.AddTransient<IListingRepository, ListingRepository>();
+        services.AddScoped<IListingRepository, ListingRepository>();
 
-        services.AddTransient<IAddressRepository, AddressRepository>();
+        services.AddScoped<IAddressRepository, AddressRepository>();
 
-        services.AddTransient<IReviewRepository, ReviewRepository>();
+        services.AddScoped<IReviewRepository, ReviewRepository>();
 
 
         //services
@@ -65,7 +70,25 @@ public class Startup
 
         app.UseHttpsRedirection();
         app.UseRouting();
-        //app.UseMiddleware<ResultHandlingMiddleware>();
+        app.UseExceptionHandler(err =>
+        {
+            err.Run(async context =>
+            {
+                context.Response.StatusCode = 500;
+                context.Response.ContentType = "application/json";
+                var problemDetails = new
+                {
+                    type = "https://tools.ietf.org/html/rfc7231#section-6.6.1",
+                    title = "An unexpected error occurred!",
+                    status = 500,
+                    detail = "An internal server error has occurred."
+                };
+
+                Log.Error("An unhandled exception occurred: {Message}", context.Features.Get<IExceptionHandlerFeature>()?.Error.Message);
+                await context.Response.WriteAsJsonAsync(problemDetails);
+            });
+        });
+
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseEndpoints(endpoints =>

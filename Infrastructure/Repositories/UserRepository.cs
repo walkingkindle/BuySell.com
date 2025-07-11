@@ -9,7 +9,7 @@ namespace Infrastructure.Repositories
     {
         public async Task<User?> GetByIdAsync(int id)
         {
-            return await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+            return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public Task<List<User>> GetAllAsync()
@@ -33,7 +33,7 @@ namespace Infrastructure.Repositories
 
         public async Task UpdateAsync(User user)
         {
-            var userToUpdate = await context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            var userToUpdate = await context.Users.FindAsync(user.Id);
 
             userToUpdate!.Name = user.Name;
 
@@ -52,7 +52,7 @@ namespace Infrastructure.Repositories
 
         public async Task<User?> GetByEmailAsync(string email)
         {
-            return await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.EmailAddress == email);
+            return await context.Users.FirstOrDefaultAsync(u => u.EmailAddress == email);
 
         }
     }

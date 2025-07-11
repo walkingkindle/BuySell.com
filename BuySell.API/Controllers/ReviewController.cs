@@ -9,6 +9,7 @@ namespace BuySell.API.Controllers
     [Route("api/reviews")]
     public class ReviewController(IReviewService reviewService): ControllerBase
     {
+        [HttpPost("")]
         public async Task<IActionResult> CreateReview(ReviewDto dto)
         {
             var result = await reviewService.CreateReview(dto);

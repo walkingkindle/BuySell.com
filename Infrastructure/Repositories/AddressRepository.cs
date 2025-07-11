@@ -10,7 +10,7 @@ namespace Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<List<Address>> GetAllAsync()
+        public Task<ICollection<Address>> GetAllAsync()
         {
             throw new NotImplementedException();
         }

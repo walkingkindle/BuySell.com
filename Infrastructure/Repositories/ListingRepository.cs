@@ -7,9 +7,9 @@ namespace Infrastructure.Repositories
 {
     public class ListingRepository(BuySellDbContext context) : IListingRepository
     {
-        public Task<Listing?> GetByIdAsync(int id)
+        public async Task<Listing?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await context.Listings.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public Task<List<Listing>> GetAllAsync()
@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
 
         public async Task UpdateAsync(Listing listing)
         {
-            var listingToUpdate = await context.Listings.FirstOrDefaultAsync(l => l.Id == listing.Id);
+            var listingToUpdate = await context.Listings.FindAsync(listing.Id);
 
             listingToUpdate!.Category = listing.Category;
 
