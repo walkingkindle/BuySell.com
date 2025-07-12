@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using BuySell.API.Extensions;
+using BuySellDotCom.Application.Extensions;
 using BuySellDotCom.Application.Interfaces.Repositories;
 using BuySellDotCom.Application.Interfaces.Services;
 using BuySellDotCom.Application.Models;
@@ -12,7 +12,7 @@ namespace BuySellDotCom.Application.Services
 {
     public class UserService(IUserRepository repository) : IUserService
     {
-        public async Task<ApiResult> AddUser(UserDto user)
+        public async Task<ApplicationResult> AddUser(UserDto user)
         {
             var emailResult = Email.Create(user.Email);
 
@@ -24,14 +24,14 @@ namespace BuySellDotCom.Application.Services
 
             if (combinedResult.IsFailure)
             {
-                return ApiResult.Failure(combinedResult.Error);
+                return ApplicationResult.Failure(Errors.BadRequest(combinedResult.Error));
             }
 
             var userExists = await repository.GetByEmailAsync(emailResult.Value);
 
             if (userExists != null)
             {
-                return ApiResult.Failure("User with this e-mail already exists");
+                return ApplicationResult.Failure(Errors.BadRequest("User with this e-mail already exists"));
             }
 
             var userDb = new User()
@@ -46,17 +46,17 @@ namespace BuySellDotCom.Application.Services
             };
             await repository.AddAsync(userDb);
 
-            return ApiResult.Success();
+            return ApplicationResult.Success();
 
         }
 
-        public async Task<ApiResult> UpdateUser(UserDto userOrNothing, int userId)
+        public async Task<ApplicationResult> UpdateUser(UserDto userOrNothing, int userId)
         {
             User? userToChange = await repository.GetByIdAsync(userId);
 
             if (userToChange == null)
             {
-                return ApiResult.Failure("The user with the specified Id does not exist.",HttpStatusCode.NotFound);
+                return ApplicationResult.Failure(Errors.NotFound);
             }
 
             var emailResult = Email.Create(userOrNothing.Email);
@@ -69,7 +69,7 @@ namespace BuySellDotCom.Application.Services
 
             if (combinedResult.IsFailure)
             {
-                return ApiResult.Failure(combinedResult.Error);
+                return ApplicationResult.Failure(Errors.BadRequest(combinedResult.Error));
             }
             //TO DO: Check if the current user is the one updating
 
@@ -86,22 +86,22 @@ namespace BuySellDotCom.Application.Services
 
             await repository.UpdateAsync(userDb);
 
-            return ApiResult.Success();
+            return ApplicationResult.Success();
         }
 
-        public async Task<ApiResult> DeleteUser(int id)
+        public async Task<ApplicationResult> DeleteUser(int id)
         {
             
             var user = await repository.GetByIdAsync(id);
 
             if (user == null)
             {
-                return ApiResult.Failure("The user with the specified Id does not exist",HttpStatusCode.NotFound);
+                return ApplicationResult.Failure(Errors.NotFound);
             }
 
             await repository.DeleteAsync(user);
 
-            return ApiResult.Success();
+            return ApplicationResult.Success();
         }
 
 }

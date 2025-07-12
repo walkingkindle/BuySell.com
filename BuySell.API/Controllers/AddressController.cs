@@ -1,4 +1,5 @@
-﻿using BuySell.API.Extensions;
+﻿using System.Text.RegularExpressions;
+using BuySell.API.Extensions;
 using BuySellDotCom.Application.Interfaces.Services;
 using BuySellDotCom.Application.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +15,7 @@ namespace BuySell.API.Controllers
         {
             var result = await addressService.CreateAddress(address);
 
-            return result.ToActionResult();
+            return this.Match(result);
 
         }
     }

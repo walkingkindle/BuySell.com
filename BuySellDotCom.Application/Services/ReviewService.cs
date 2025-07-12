@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using AutoMapper;
-using BuySell.API.Extensions;
+using BuySellDotCom.Application.Extensions;
 using BuySellDotCom.Application.Interfaces.Repositories;
 using BuySellDotCom.Application.Interfaces.Services;
 using BuySellDotCom.Application.Models;
@@ -12,33 +12,33 @@ namespace BuySellDotCom.Application.Services
 {
     public class ReviewService(IReviewRepository reviewRepository, IListingRepository listingRepository,IMapper mapper):IReviewService
     {
-        public async Task<ApiResult> CreateReview(ReviewDto reviewOrNothing)
+        public async Task<ApplicationResult> CreateReview(ReviewDto reviewOrNothing)
         {
             var reviewResult = ReviewModel.Create(reviewOrNothing);
 
             if (reviewResult.IsFailure)
             {
-                return ApiResult.Failure(reviewResult.Error);
+                return ApplicationResult.Failure(Errors.BadRequest(reviewResult.Error));
             }
 
             if (await reviewRepository.GetReviewBy(reviewResult.Value.UserId, reviewResult.Value.ListingId) !=
                 null)
             {
-                return ApiResult.Failure("This user has already reviewed this product",HttpStatusCode.Forbidden);
+                return ApplicationResult.Failure(Errors.Forbidden);
             }
 
             List<Listing> listingsForUser = await listingRepository.GetByUserId(reviewResult.Value.UserId);
 
             if (listingsForUser.Any())
             {
-                return ApiResult.Failure("The user cannot review any listings that belong to him",HttpStatusCode.Forbidden);
+                return ApplicationResult.Failure(Errors.Forbidden);
             }
 
             Review review = mapper.Map<Review>(reviewResult.Value);
 
             await reviewRepository.AddAsync(review);
 
-            return ApiResult.Success();
+            return ApplicationResult.Success();
         }
     }
 }

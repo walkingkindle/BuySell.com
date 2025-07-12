@@ -14,7 +14,7 @@ namespace BuySell.API.Controllers;
         {
             var result = await service.CreateListing(listing);
 
-            return result.ToActionResult();
+            return this.Match(result);
         }
 
         [HttpGet("{id}")]
@@ -22,7 +22,7 @@ namespace BuySell.API.Controllers;
         {
             var result = await service.GetListing(listingId);
 
-            return result.ToActionResult();
+            return this.Match(result);
 
         }
 
@@ -32,7 +32,7 @@ namespace BuySell.API.Controllers;
         {
             var result = await service.UpdateListing(listing, listingId, userId);
 
-            return result.ToActionResult();
+            return this.Match(result);
 
         }
 
@@ -41,7 +41,7 @@ namespace BuySell.API.Controllers;
         {
             var result = await service.DeleteListing(listingId, userId);
 
-            return result.ToActionResult();
+            return this.Match(result);
         }
         
     }

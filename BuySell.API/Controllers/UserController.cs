@@ -1,4 +1,5 @@
-﻿using BuySell.API.Extensions;
+﻿using System.Text.RegularExpressions;
+using BuySell.API.Extensions;
 using BuySellDotCom.Application.Interfaces.Services;
 using BuySellDotCom.Application.Models.DTO;
 using CSharpFunctionalExtensions;
@@ -16,7 +17,7 @@ namespace BuySell.API.Controllers
         public async Task<IActionResult> CreateUser(UserDto user)
         { 
             var userResult = await service.AddUser(user);
-            return userResult.ToActionResult();
+            return this.Match(userResult);
         }
 
         [HttpPut("{id}")]
@@ -24,7 +25,7 @@ namespace BuySell.API.Controllers
         {
             var result = await service.UpdateUser(user, userId);
 
-            return result.ToActionResult();
+            return this.Match(result);
         }
 
         [HttpDelete("{id}")]
@@ -33,7 +34,7 @@ namespace BuySell.API.Controllers
             //TO DO: AUTHORIZE THIS SO THAT ONLY THE USER HIMSELF CAN DELETE HIS ACCOUNT OR THE ADMIN
             var result = await service.DeleteUser(userId);
 
-            return result.ToActionResult();
+            return this.Match(result);
         }
 
     }
