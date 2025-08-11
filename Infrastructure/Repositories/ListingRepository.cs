@@ -1,21 +1,15 @@
 ﻿using BuySellDotCom.Application.Interfaces.Repositories;
 using BuySellDotCom.Core.Persistence.Entities;
 using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class ListingRepository : IListingRepository
+    public class ListingRepository(BuySellDbContext context) : IListingRepository
     {
-        private readonly BuySellDbContext _context;
-
-        public ListingRepository(BuySellDbContext context)
+        public async Task<Listing?> GetByIdAsync(int id)
         {
-            _context = context;
-
-        }
-        public Task<Listing?> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
+            return await context.Listings.FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public Task<List<Listing>> GetAllAsync()
@@ -25,9 +19,9 @@ namespace Infrastructure.Repositories
 
         public async Task AddAsync(Listing listing)
         {
-            _context.Listings.Add(listing);
+            context.Listings.Add(listing);
 
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
         public Task DeleteAsync(Listing listing)
@@ -35,9 +29,23 @@ namespace Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Listing listing)
+        public async Task UpdateAsync(Listing listing)
         {
-            throw new NotImplementedException();
+            var listingToUpdate = await context.Listings.FindAsync(listing.Id);
+
+            listingToUpdate!.Category = listing.Category;
+
+            listingToUpdate.Condition = listing.Condition;
+
+            listingToUpdate.ImageUrl = listing.ImageUrl;
+
+            listingToUpdate.Name = listing.Name;
+
+            listingToUpdate.Price = listing.Price;
+
+            await context.SaveChangesAsync();
         }
+
+        public async Task<List<Listing>> GetByUserId(int userId) => await context.Listings.Where(u => u.UserId == userId).ToListAsync();
     }
 }

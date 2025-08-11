@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(BuySellDbContext))]
-    [Migration("20250619113938_Init")]
-    partial class Init
+    [Migration("20250708105611_RemoveStateUnneccessary")]
+    partial class RemoveStateUnneccessary
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,10 +46,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(8)
                         .HasColumnType("int");
 
-                    b.Property<string>("State")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -68,6 +64,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AddressId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
@@ -85,15 +84,12 @@ namespace Infrastructure.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ShippingAddressId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShippingAddressId");
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("UserId");
 
@@ -201,14 +197,14 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("BuySellDotCom.Core.Persistence.Entities.Address", "ShippingAddress")
                         .WithMany()
-                        .HasForeignKey("ShippingAddressId")
+                        .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BuySellDotCom.Core.Persistence.Entities.User", "User")
                         .WithMany("Listings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("ShippingAddress");

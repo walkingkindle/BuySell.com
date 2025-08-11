@@ -1,4 +1,2 @@
-﻿namespace BuySellDotCom.Application.Models.DTO
-{
-    public record AddressDto(string City, string AddressValue, int BuildingNumber);
-}
+﻿namespace BuySellDotCom.Application.Models.DTO;
+public record AddressDto(string City, string AddressValue, int Number, int UserId);

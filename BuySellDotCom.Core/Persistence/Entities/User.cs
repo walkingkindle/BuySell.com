@@ -26,10 +26,14 @@ namespace BuySellDotCom.Core.Persistence.Entities
         public required string EmailAddress { get; set; }
         public bool IsActivated { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         [Range(0,150)]
         public int? Age { get; set; }
         public Gender? Gender { get; set; }
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
         public ICollection<Listing> Listings { get; set; } = new List<Listing>();
+
     }
+
 }

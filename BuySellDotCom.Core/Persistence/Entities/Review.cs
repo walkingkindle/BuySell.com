@@ -9,12 +9,14 @@ namespace BuySellDotCom.Core.Persistence.Entities
         [Required]
         public required Listing Listing { get; set; }
 
-
         [Range(1,5)]
         [Required]
         public required int Value { get; set; }
 
         [Required]
         public required int ListingId { get; set; }
+
+        [Required]
+        public required int UserId { get; set; }
     }
 }

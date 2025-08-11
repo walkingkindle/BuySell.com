@@ -1,0 +1,50 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace Infrastructure.Migrations
+{
+    /// <inheritdoc />
+    public partial class RemoveAddressListing : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Listings_Addresses_AddressId",
+                table: "Listings");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Listings_AddressId",
+                table: "Listings");
+
+            migrationBuilder.DropColumn(
+                name: "AddressId",
+                table: "Listings");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<int>(
+                name: "AddressId",
+                table: "Listings",
+                type: "int",
+                nullable: false,
+                defaultValue: 0);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Listings_AddressId",
+                table: "Listings",
+                column: "AddressId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Listings_Addresses_AddressId",
+                table: "Listings",
+                column: "AddressId",
+                principalTable: "Addresses",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
+        }
+    }
+}

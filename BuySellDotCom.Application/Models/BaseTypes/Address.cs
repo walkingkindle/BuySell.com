@@ -1,30 +1,37 @@
 ﻿using BuySellDotCom.Application.Models.DTO;
 using CSharpFunctionalExtensions;
 
-namespace BuySellDotCom.Core.BaseTypes
+namespace BuySellDotCom.Application.Models.BaseTypes
 {
-    public class Address
+    public class AddressModel
     { 
-        private Address(string city, string addressValue, int buildingNumber)
+        private AddressModel(string city, string addressValue, int buildingNumber,int userId)
         {
             City = city;
 
             AddressValue = addressValue;
 
-            BuildingNumber = buildingNumber;
+            Number = buildingNumber;
+
+            UserId = userId;
         }
 
         public string City { get; set; }
 
         public string AddressValue { get; set; }
 
-        public int BuildingNumber { get; set; }
+        public int Number { get; set; }
+
+        public int UserId { get; set; }
 
 
-        public static Result<Address> Create(Maybe<AddressDto> addressOrNothing){
+        public static Result<AddressModel> Create(Maybe<AddressDto> addressOrNothing)
+        {
             return addressOrNothing.ToResult("address cannot be null")
-                .Ensure(address => !string.IsNullOrEmpty(addressOrNothing.Value.City) || addressOrNothing.Value.BuildingNumber <= 0, "Invalid address information")
-                .Map(address => new Address(addressOrNothing.Value.City, addressOrNothing.Value.AddressValue, addressOrNothing.Value.BuildingNumber));
+            .Ensure(address => !string.IsNullOrEmpty(address.AddressValue) || address.Number <= 0, "Invalid address information")
+            .Ensure(address => address.UserId > 0,"Invalid user Id provided for address")
+            .Map(address => new AddressModel(address.City, address.AddressValue, address.Number,address.UserId));
+
 
         }
 

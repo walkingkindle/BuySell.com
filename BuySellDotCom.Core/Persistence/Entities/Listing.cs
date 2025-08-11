@@ -19,9 +19,6 @@ public class Listing
     [Required]
     public required Condition Condition { get; set; }
 
-    [Required]
-    public required Address ShippingAddress { get; set; }
-
     [Url]
     public string? ImageUrl { get; set; }
 
@@ -36,5 +33,7 @@ public class Listing
 
     [Required]
     public required int UserId { get; set; }
+
+    public bool IsDeleted { get; set; }
 }
 

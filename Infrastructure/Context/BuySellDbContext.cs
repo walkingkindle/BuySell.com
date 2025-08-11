@@ -18,6 +18,18 @@ namespace Infrastructure.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+             modelBuilder.Entity<Listing>()
+            .HasOne(l => l.User)
+            .WithMany(u => u.Listings)
+            .HasForeignKey(l => l.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+             modelBuilder.Entity<Listing>().HasQueryFilter(l => !l.IsDeleted);
+
+             modelBuilder.Entity<User>().HasQueryFilter(u => !u.IsDeleted && u.IsActivated);
+
+
+
 
         }
 
